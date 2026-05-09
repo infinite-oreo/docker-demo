@@ -7,13 +7,16 @@ A containerized multi-node health monitoring service demonstrating core concepts
 In distributed systems, understanding node health is fundamental to fault tolerance. This project simulates a multi-node environment where each node exposes its own health status independently, reflecting real-world patterns used in systems like Kubernetes liveness probes and service mesh health checks.
 
 ## Architecture
-Client
-├── GET localhost:8081/health  →  node-1 (container)
-├── GET localhost:8082/health  →  node-2 (container)
-└── GET localhost:8083/health  →  node-3 (container)
 
+Each node runs as an isolated Docker container, exposed on a different host port:
 
-Each node runs as an isolated Docker container. Nodes share the same image but operate independently — failure in one does not affect others.
+| Node   | Host Port | Endpoint                      |
+|--------|-----------|-------------------------------|
+| node-1 | 8081      | http://localhost:8081/health  |
+| node-2 | 8082      | http://localhost:8082/health  |
+| node-3 | 8083      | http://localhost:8083/health  |
+
+Nodes share the same image but operate independently — failure in one does not affect others.
 
 ## Tech Stack
 
