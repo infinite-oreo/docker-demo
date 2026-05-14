@@ -62,3 +62,37 @@ curl http://localhost:8083/health
 ## Background
 
 This project was built as a hands-on introduction to container orchestration, alongside graduate research in distributed systems reliability and fault tolerance at Tokyo Metropolitan University.
+
+
+## Kubernetes Deployment
+
+The service can also be deployed to a Kubernetes cluster using the manifests in `k8s/`.
+
+**Prerequisites:** minikube and kubectl installed.
+
+```bash
+# Start local cluster
+minikube start
+
+# Load image into minikube
+minikube image load health-node:latest
+
+# Deploy
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+
+# Verify pods are running
+kubectl get pods
+
+# Get access URL
+minikube service health-node --url
+```
+
+### What Kubernetes adds over docker-compose
+
+| Feature | docker-compose | Kubernetes |
+|---|---|---|
+| Multi-node | ✅ Manual config | ✅ Auto via replicas |
+| Auto-restart | ❌ | ✅ Always restarts failed pods |
+| Load balancing | ❌ | ✅ Service distributes traffic |
+| Node identity | Manual env var | ✅ Auto from Pod metadata |
