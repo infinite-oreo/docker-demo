@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-node
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: health-node
+  template:
+    metadata:
+      labels:
+        app: health-node
+    spec:
+      containers:
+        - name: health-node
+          image: health-node:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: NODE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
